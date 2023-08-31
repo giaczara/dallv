@@ -1,0 +1,17 @@
+# @package _global_
+
+defaults:
+  - override /datamodule: video.yaml
+  - override /model: video.yaml
+  - override /callbacks: simple.yaml
+  - override /trainer: ddp.yaml
+  - override /extras: default.yaml
+
+datamodule:
+  dataset: ek13
+  source_train_file: "txt/epic_kitchens/D1_source.txt"
+  target_train_file: "txt/epic_kitchens/D3_source.txt"
+  test_file: "txt/epic_kitchens/D3_target.txt"
+  balance_training_set: False
+  source_dataset: D1
+  target_dataset: D3

@@ -1,0 +1,66 @@
+# source_model
+tag="source_training"
+CUDA_VISIBLE_DEVICES=0 python -W ignore src/train.py \
+  experiment=arid_mit \
+  datamodule.batch_size=24 \
+  model.loss.source.weight=1.0 \
+  model.domain_shift=True \
+  model.prompts.type=original \
+  model.prompts.eval=original \
+  model.network.pretrained_model=none \
+  model.network.sim_header=meanP \
+  model.network.fusion_input=logits \
+  model.network.use_adapter=True \
+  model.network.arch=RN50 \
+  model.validation_adapter=source \
+  tags=[$tag] \
+  logger.wandb.tags=[$tag] \
+  logger.wandb.project=sports_da_exps \
+  trainer.max_epochs=30 \
+  trainer.devices=1
+
+# target model
+tag="target_training"
+CUDA_VISIBLE_DEVICES=0 python -W ignore src/train.py \
+  experiment=hmdb_mit \
+  datamodule.batch_size=24 \
+  model.loss.source.weight=0.0 \
+  model.loss.target.weight=1.0 \
+  model.domain_shift=True \
+  model.prompts.type=original \
+  model.prompts.eval=original \
+  model.network.pretrained_model=none \
+  model.network.sim_header=meanP \
+  model.network.fusion_input=logits \
+  model.network.use_adapter=True \
+  model.network.arch=RN50 \
+  model.validation_adapter=target \
+  tags=[$tag] \
+  logger.wandb.tags=[$tag] \
+  logger.wandb.project=sports_da_exps \
+  trainer.max_epochs=30 \
+  trainer.devices=1
+
+# method
+tag="dallv"
+CUDA_VISIBLE_DEVICES=0 python -W ignore src/train.py \
+  experiment=ucf_sports \
+  model.network.source_adapter_checkpoint=pretrained_models/ucf_sports_da_source_model.pt \
+  model.network.target_adapter_checkpoint=pretrained_models/sports_sports_da_target_model.pt \
+  datamodule.batch_size=4 \
+  model.loss.source.weight=1.0 \
+  model.loss.temperature=2.0 \
+  model.domain_shift=True \
+  model.prompts.type=original \
+  model.prompts.eval=original \
+  model.network.pretrained_model=none \
+  model.network.sim_header=meanP \
+  model.network.fusion_input=logits \
+  model.network.use_adapter=True \
+  model.network.arch=RN50 \
+  model.distillation=True \
+  tags=[$tag] \
+  logger.wandb.tags=[$tag] \
+  logger.wandb.project=sports_da_exps \
+  trainer.devices=1 \
+  trainer.max_epochs=30

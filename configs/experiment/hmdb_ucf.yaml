@@ -1,0 +1,17 @@
+# @package _global_
+
+defaults:
+  - override /datamodule: video.yaml
+  - override /model: video.yaml
+  - override /callbacks: simple.yaml
+  - override /trainer: ddp.yaml
+  - override /extras: default.yaml
+
+datamodule:
+  dataset: hmdb_ucf
+  source_train_file: "txt/hmdb_ucf/hmdb51_ucf101_train_da.txt"
+  target_train_file: "txt/hmdb_ucf/ucf101_hmdb51_train_da.txt"
+  test_file: "txt/hmdb_ucf/ucf101_hmdb51_val_da.txt"
+  balance_training_set: False
+  source_dataset: hmdb
+  target_dataset: ucf

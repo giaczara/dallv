@@ -1,0 +1,17 @@
+# @package _global_
+
+defaults:
+  - override /datamodule: video.yaml
+  - override /model: video.yaml
+  - override /callbacks: simple.yaml
+  - override /trainer: ddp.yaml
+  - override /extras: default.yaml
+
+datamodule:
+  dataset: mit_arid
+  source_train_file: "txt/daily_da/mit_msda_train.txt"
+  target_train_file: "txt/daily_da/arid_msda_train.txt"
+  test_file: "txt/daily_da/arid_msda_test.txt"
+  balance_training_set: False
+  source_dataset: mit
+  target_dataset: arid

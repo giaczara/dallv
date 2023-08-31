@@ -1,0 +1,26 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - datamodule: video.yaml # choose datamodule with `test_dataloader()` for evaluation
+  - model: video.yaml
+  - logger: many_loggers.yaml
+  - callbacks: rich_progress_bar.yaml
+  - trainer: gpu.yaml
+  - paths: default.yaml
+  - extras: default.yaml
+  - hydra: default.yaml
+  - experiment: hmdb_ucf_eval.yaml
+
+task_name: "eval"
+
+tags: ["dev"]
+
+# passing checkpoint path is necessary for evaluation
+ckpt_path:
+
+prototypes_extraction: False
+subtasks_analysis:
+  enabled: False
+  class_: 0
+lovely_tensors: True

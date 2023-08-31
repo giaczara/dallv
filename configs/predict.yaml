@@ -1,0 +1,42 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - datamodule: video.yaml # choose data with `predict_dataloader()` for prediction
+  - model: video.yaml
+  - callbacks:
+      - rich_progress_bar.yaml
+  - logger: null
+  - trainer: gpu.yaml
+  - paths: default.yaml
+  - extras: default.yaml
+  - hydra: default.yaml
+  - experiment: hmdb_ucf_eval.yaml
+
+task_name: "predict"
+
+tags: ["dev"]
+
+# passing checkpoint path is often necessary for prediction
+ckpt_path: null
+
+# path to save artifacts (i.e. predictions)
+# the path is relative to `paths.artifact_dir`
+# if not specified, artifacts will be saved to `paths.output_dir`
+artifact_path: null
+
+# batch attribute to use to pivot the predictions on
+# if not specified, the predictions will be saved as a list
+# if specified, the predictions will be saved as a dictionary
+# where the key is the value of the batch attribute and the value is the prediction
+pivot: null
+
+# define the data split for prediction
+data:
+  predict_on: "test"
+
+prototypes_extraction: False
+subtasks_analysis:
+  enabled: False
+  class_: 0
+lovely_tensors: True

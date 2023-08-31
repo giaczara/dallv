@@ -1,0 +1,83 @@
+_target_: src.models.video_module.VideoModel
+
+loss:
+  source:
+    weight: 1.0
+    frames:
+      weight: 0.0
+  target:
+    weight: 0.0
+    filtering: top_k_confident_samples_v2
+    k: 20
+    k_type: percentage
+    top_k: 0.2
+    use_gt: False
+    confidence_threshold: 0.5
+  soft:
+    weight: 0.9
+  temperature: 1.0
+  label_smoothing_value: 0.0
+solver:
+  type: cosine
+  lr: 0.01
+  optim: adamw
+  lr_warmup_steps: 3
+  lr_decay_steps: [4, 8, 12, 16]
+  start_epoch: 0
+  ratio: 1
+  f_ratio: 10
+  weight_decay: 0.2
+  momentum: 0.9
+  prompt_optimizer: sgd
+  single_optimizer: False
+network:
+  clip_version: original
+  arch: ViT-B/32
+  arch_student: RN50
+  tsm: False
+  sim_header: "Transf"
+  init: True
+  joint: False
+  pretrained_model: pretrained_models/vit-32-8f.pt
+  target_adapter_checkpoint: none
+  source_adapter_checkpoint: none
+  final_adapter_checkpoint: none
+  dropout: 0.0
+  emb_dropout: 0.0
+  fix_text: False
+  fusion_only: False
+  fusion_input: features
+  moving_average: False
+  moving_average_size: 2
+  moving_average_weight: uniform
+  use_adapter: False
+  ensemble:
+    method: weighted_average
+    pred_ensemble: none
+    alpha:
+      source: 0.5
+      target: 0.5
+      clip: 0.5
+  backbone: clip_encoder
+  atcon:
+    consensus_type: trn-m
+    classifier_type: wn
+    fcbn_type: bn
+  fixed_adapter: False
+prompts:
+  type: original
+  eval: standard
+  hierarchical_prompt_version: 1
+  decomposition_version: "standard"
+  subtask_weight: 0.0
+  conditioned: False
+  alpha: 0.5
+  n_templates: -1
+  image_templates: none
+domain_shift: False
+validation_adapter: none
+distillation: False
+distill_on_clip: False
+classifier_baseline: False
+umap: False
+umap_feats: ours

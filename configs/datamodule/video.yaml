@@ -1,0 +1,11 @@
+_target_: src.datamodules.video_datamodule.VideoDataModule
+num_segments: 16
+random_shift: True
+batch_size: 16
+input_size: 224
+randaug:
+  N: 2
+  M: 9
+workers: 8
+pin_memory: False
+classes_limit: 0
